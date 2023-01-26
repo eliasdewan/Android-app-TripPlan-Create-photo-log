@@ -13,6 +13,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TripPlan"
         tools:targetApi="31">
+
+        <activity
+            android:name=".TaskList"
+            android:exported="false"
+            android:label="Trips"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.tripplan.MainActivity" />
+        </activity>
+
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -22,6 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
