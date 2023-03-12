@@ -28,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
         tripList.add(new Trip("TripTitle 1", "Description 1", "12/03/2023"));
         tripList.add(new Trip("TripTitle 2", "Description 2", "13/03/2023"));
         tripList.add(new Trip("TripTitle 3", "Description 3", "14/03/2023"));
+        tripList.add(new Trip("TripTitle 1", "Description 1", "12/03/2023"));
+        tripList.add(new Trip("TripTitle 2", "Description 2", "13/03/2023"));
+        tripList.add(new Trip("TripTitle 3", "Description 3", "14/03/2023"));
 
         begin = findViewById(R.id.begin);
         recyclerView =  findViewById(R.id.recycler_view);
