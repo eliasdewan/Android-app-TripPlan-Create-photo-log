@@ -16,7 +16,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
         this.tripList = tripList;
     }
 
-
     @Override
     public TripAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.trips_layout, parent, false);
@@ -28,7 +27,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
         return tripList.size();
     }
 
-
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Trip trip = tripList.get(position);
@@ -36,7 +34,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
         holder.descriptionTextView.setText(trip.getDescription());
         holder.reminderTextView.setText(trip.getReminderDate());
     }
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
