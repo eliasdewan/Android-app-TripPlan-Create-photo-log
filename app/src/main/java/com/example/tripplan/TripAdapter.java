@@ -1,5 +1,6 @@
 package com.example.tripplan;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,19 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
             titleTextView = tripView.findViewById(R.id.title_text_view);
             descriptionTextView = tripView.findViewById(R.id.description_text_view);
             reminderTextView = tripView.findViewById(R.id.reminder_text_view);
+
+            tripView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("click","click pre position");
+                    int position = getAdapterPosition();
+                    Log.d("click","position" + position);
+                    if (position != RecyclerView.NO_POSITION){
+                        Log.d("click","after position");
+
+                    }
+                }
+            });
         }
     }
 }

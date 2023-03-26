@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,9 @@ public class MainActivity extends AppCompatActivity {
 
     Button begin;
     RecyclerView recyclerView;
+    List<Trip> tripList;
+    TripAdapter tripAdapter;
+    private static final int REQUEST_CODE = 1;
 
 
     @Override
@@ -23,27 +28,42 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        tripList = new ArrayList<>();
 
-        List<Trip> tripList = new ArrayList<>();
         tripList.add(new Trip("TripTitle 1", "Description 1", "12/03/2023"));
         tripList.add(new Trip("TripTitle 2", "Description 2", "13/03/2023"));
-        tripList.add(new Trip("TripTitle 3", "Description 3", "14/03/2023"));
-        tripList.add(new Trip("TripTitle 1", "Description 1", "12/03/2023"));
-        tripList.add(new Trip("TripTitle 2", "Description 2", "13/03/2023"));
-        tripList.add(new Trip("TripTitle 3", "Description 3", "14/03/2023"));
 
         begin = findViewById(R.id.begin);
         recyclerView =  findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        TripAdapter tripAdapter  = new TripAdapter (tripList);
+        tripAdapter  = new TripAdapter (tripList);
         recyclerView.setAdapter(tripAdapter);
 
         begin.setOnClickListener(new View.OnClickListener() { // suggested to convert to lambda
             @Override
             public void onClick(View v) {
                 Intent tripsScreen = new Intent(MainActivity.this,TaskList.class);
-                startActivity(tripsScreen);
+                //startActivity(tripsScreen);
+                startActivityForResult(tripsScreen, REQUEST_CODE);
             }
         });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            String result = data.getStringExtra("result");
+            Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+            //tripList.add(new Trip("TripTitle 1", "Description 1", "12/03/2023"));
+            tripList.add(new Trip(data.getStringExtra("title"), data.getStringExtra("description"), data.getStringExtra("date")));
+            Log.w("Listproject",data.getStringExtra("title")+"< none");
+            Log.w("Listproject",data.getStringExtra("description")+"< none");
+            Log.w("Listproject",data.getStringExtra("date")+"< none");
+            tripAdapter.notifyItemInserted(tripList.size()-1);
+
+
+        }
+    }
+
 }
