@@ -5,16 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-public class TaskList extends AppCompatActivity {
-
+public class newTrip extends AppCompatActivity {
 
     private EditText tripTitle;
     private EditText tripDescription;
@@ -25,7 +26,6 @@ public class TaskList extends AppCompatActivity {
     private Button addButton;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +33,7 @@ public class TaskList extends AppCompatActivity {
         tripTitle = findViewById(R.id.editTextNewTripTitle);
         tripDescription = findViewById(R.id.editTextNewTripDescription);
         tripReminder = findViewById(R.id.editTextNewDate);
-        addButton = findViewById(R.id.addTask);
+        addButton = findViewById(R.id.actionButton);
         imageView = findViewById(R.id.imageView);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,29 +42,46 @@ public class TaskList extends AppCompatActivity {
             }
         });
 
+
+        String request = getIntent().getStringExtra("action");
+
+        if (request.equals("edit")){
+            Toast.makeText(getApplicationContext(), "EDIT SCREEN", Toast.LENGTH_SHORT).show();
+            TextView screen = findViewById(R.id.screenTitle);
+            Button actionButton = findViewById(R.id.actionButton);
+            screen.setText("Edit Trip");
+            actionButton.setText("Edit");
+
+            tripTitle.setText(getIntent().getStringExtra("tripTitle"));
+            tripDescription.setText(getIntent().getStringExtra("tripDescription"));
+            tripReminder.setText(getIntent().getStringExtra("tripReminderDate"));
+
+        }
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (tripTitle.getText().toString().trim().length() > 0) {
-                    String result = "Image uri:" + imageUri;
                     Intent intent = new Intent();
-                    intent.putExtra("result", result);
+                    intent.putExtra("image", "Image uri:" + imageUri);
                     intent.putExtra("title", tripTitle.getText().toString());
                     intent.putExtra("description", tripDescription.getText().toString());
                     intent.putExtra("date", tripReminder.getText().toString());
+                    intent.putExtra("action",getIntent().getStringExtra("action"));
+                    intent.putExtra("position",getIntent().getStringExtra("position"));
+
 
                     setResult(RESULT_OK, intent);
                     finish();
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "You did not enter a Title", Toast.LENGTH_SHORT).show();
+                    Log.w("ACTION",getIntent().getStringExtra("action"));
+                    Log.w("Position", String.valueOf(getIntent().getIntExtra("position",0)));
 
                 }
             }
         });
-
-
-
     }
 
     private void openImagePicker() {

@@ -16,12 +16,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements TripItemClickListener {
 
-    Button begin;
+    Button create;
     RecyclerView recyclerView;
     List<Trip> tripList;
     TripAdapter tripAdapter;
     private static final int REQUEST_CODE = 1;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,19 +32,20 @@ public class MainActivity extends AppCompatActivity implements TripItemClickList
         tripList.add(new Trip("TripTitle 1", "Description 1", "12/03/2023"));
         tripList.add(new Trip("TripTitle 2", "Description 2", "13/03/2023"));
 
-        begin = findViewById(R.id.begin);
+        create = findViewById(R.id.begin);
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         tripAdapter = new TripAdapter(tripList, this);
         recyclerView.setAdapter(tripAdapter);
 
 
-        begin.setOnClickListener(new View.OnClickListener() { // suggested to convert to lambda
+        create.setOnClickListener(new View.OnClickListener() { // CREATE NEW
             @Override
             public void onClick(View v) {
-                Intent tripsScreen = new Intent(MainActivity.this, TaskList.class);
+                Intent newTripScreen = new Intent(MainActivity.this, newTrip.class);
+                newTripScreen.putExtra("action", "add");
                 //startActivity(tripsScreen);
-                startActivityForResult(tripsScreen, REQUEST_CODE);
+                startActivityForResult(newTripScreen, REQUEST_CODE);
             }
         });
     }
@@ -54,16 +54,22 @@ public class MainActivity extends AppCompatActivity implements TripItemClickList
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-            String result = data.getStringExtra("result");
-            Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
-            //tripList.add(new Trip("TripTitle 1", "Description 1", "12/03/2023"));
-            tripList.add(new Trip(data.getStringExtra("title"), data.getStringExtra("description"), data.getStringExtra("date")));
-            Log.w("Listproject", data.getStringExtra("title") + "< none");
-            Log.w("Listproject", data.getStringExtra("description") + "< none");
-            Log.w("Listproject", data.getStringExtra("date") + "< none");
-            tripAdapter.notifyItemInserted(tripList.size() - 1);
+            String image = data.getStringExtra("image"); // Not neede
+            Toast.makeText(this, image, Toast.LENGTH_SHORT).show();
 
 
+            if (data.getStringExtra("action").equals("add")) {
+                tripList.add(new Trip(data.getStringExtra("title"), data.getStringExtra("description"), data.getStringExtra("date")));
+                tripAdapter.notifyItemInserted(tripList.size() - 1);
+            } else if (data.getStringExtra("action").equals("edit")) {
+                Toast.makeText(getApplicationContext(), "EDIT", Toast.LENGTH_SHORT).show();
+                int tripPosition = data.getIntExtra("position", 0);
+                Trip changingTrip = tripList.get(tripPosition);
+                changingTrip.setTitle(data.getStringExtra("title"));
+                changingTrip.setDescription(data.getStringExtra("description"));
+                changingTrip.setReminderDate(data.getStringExtra("date"));
+                tripAdapter.notifyItemChanged(tripPosition);
+            }
         }
     }
 
@@ -77,6 +83,13 @@ public class MainActivity extends AppCompatActivity implements TripItemClickList
     @Override
     public void onMyTripEdited(int position) {
         Log.w("Edit trip", "Trip to edit");
-        // handle
+        Intent editTripScreen = new Intent(MainActivity.this, newTrip.class);
+        editTripScreen.putExtra("action", "edit");
+        editTripScreen.putExtra("position", position);
+        editTripScreen.putExtra("tripTitle", tripList.get(position).getTitle());
+        editTripScreen.putExtra("tripDescription", tripList.get(position).getDescription());
+        editTripScreen.putExtra("tripReminderDate", tripList.get(position).getReminderDate());
+        // editTripScreen.putExtra("tripDescription",tripList.get(position).getDescription());
+        startActivityForResult(editTripScreen, REQUEST_CODE);
     }
 }
