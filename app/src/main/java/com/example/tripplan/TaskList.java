@@ -65,8 +65,6 @@ public class TaskList extends AppCompatActivity {
 
 
 
-
-
     }
 
     private void openImagePicker() {

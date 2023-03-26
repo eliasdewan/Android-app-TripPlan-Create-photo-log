@@ -1,10 +1,13 @@
 package com.example.tripplan;
 
+import android.net.Uri;
+
 public class Trip {
 
     private String title;
     private String Description;
     private String ReminderDate;
+    private Uri imageUri;
 
     public Trip(String title, String description, String reminderDate) {
         this.title = title;
@@ -36,4 +39,11 @@ public class Trip {
         ReminderDate = reminderDate;
     }
 
+    public Uri getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(Uri imageUri) {
+        this.imageUri = imageUri;
+    }
 }
