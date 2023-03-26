@@ -57,17 +57,25 @@ public class MainActivity extends AppCompatActivity implements TripItemClickList
             String image = data.getStringExtra("image"); // Not neede
             Toast.makeText(this, image, Toast.LENGTH_SHORT).show();
 
-
+            // For when used add button
             if (data.getStringExtra("action").equals("add")) {
-                tripList.add(new Trip(data.getStringExtra("title"), data.getStringExtra("description"), data.getStringExtra("date")));
+                tripList.add(new Trip(data.getStringExtra("title"),
+                        data.getStringExtra("description"),
+                        data.getStringExtra("date"),
+                        data.getStringExtra("image")));
+                Log.w("Image uri here", data.getStringExtra("image"));
                 tripAdapter.notifyItemInserted(tripList.size() - 1);
+
+                // When pressing edit icon button
             } else if (data.getStringExtra("action").equals("edit")) {
                 Toast.makeText(getApplicationContext(), "EDIT", Toast.LENGTH_SHORT).show();
                 int tripPosition = data.getIntExtra("position", 0);
+                Log.w("Positionoflist", String.valueOf(data.getIntExtra("position", 0)));
                 Trip changingTrip = tripList.get(tripPosition);
                 changingTrip.setTitle(data.getStringExtra("title"));
                 changingTrip.setDescription(data.getStringExtra("description"));
                 changingTrip.setReminderDate(data.getStringExtra("date"));
+                changingTrip.setImageUri(data.getStringExtra("image"));
                 tripAdapter.notifyItemChanged(tripPosition);
             }
         }
@@ -82,14 +90,16 @@ public class MainActivity extends AppCompatActivity implements TripItemClickList
 
     @Override
     public void onMyTripEdited(int position) {
-        Log.w("Edit trip", "Trip to edit");
+        Log.w("Edittrip", "Trip to edit"+position);
         Intent editTripScreen = new Intent(MainActivity.this, newTrip.class);
         editTripScreen.putExtra("action", "edit");
         editTripScreen.putExtra("position", position);
         editTripScreen.putExtra("tripTitle", tripList.get(position).getTitle());
         editTripScreen.putExtra("tripDescription", tripList.get(position).getDescription());
         editTripScreen.putExtra("tripReminderDate", tripList.get(position).getReminderDate());
-        // editTripScreen.putExtra("tripDescription",tripList.get(position).getDescription());
+        editTripScreen.putExtra("image", tripList.get(position).getImageUri());
+        Log.w("endEdittrip", "Trip to edit"+position);
+
         startActivityForResult(editTripScreen, REQUEST_CODE);
     }
 }

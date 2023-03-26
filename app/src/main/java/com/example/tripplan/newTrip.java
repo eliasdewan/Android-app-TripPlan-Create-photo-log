@@ -29,7 +29,7 @@ public class newTrip extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task_list);
+        setContentView(R.layout.activity_trip_add_edit);
         tripTitle = findViewById(R.id.editTextNewTripTitle);
         tripDescription = findViewById(R.id.editTextNewTripDescription);
         tripReminder = findViewById(R.id.editTextNewDate);
@@ -38,14 +38,14 @@ public class newTrip extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            openImagePicker();
+                openImagePicker();
             }
         });
 
 
         String request = getIntent().getStringExtra("action");
 
-        if (request.equals("edit")){
+        if (request.equals("edit")) {
             Toast.makeText(getApplicationContext(), "EDIT SCREEN", Toast.LENGTH_SHORT).show();
             TextView screen = findViewById(R.id.screenTitle);
             Button actionButton = findViewById(R.id.actionButton);
@@ -55,7 +55,11 @@ public class newTrip extends AppCompatActivity {
             tripTitle.setText(getIntent().getStringExtra("tripTitle"));
             tripDescription.setText(getIntent().getStringExtra("tripDescription"));
             tripReminder.setText(getIntent().getStringExtra("tripReminderDate"));
+            Log.w("Image uri from edit", getIntent().getStringExtra("image"));
 
+            if (!getIntent().getStringExtra("image").equals("INVALID")) {
+                Glide.with(this).load(Uri.parse(getIntent().getStringExtra("image"))).into(imageView);
+            }
         }
 
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -63,21 +67,27 @@ public class newTrip extends AppCompatActivity {
             public void onClick(View view) {
                 if (tripTitle.getText().toString().trim().length() > 0) {
                     Intent intent = new Intent();
-                    intent.putExtra("image", "Image uri:" + imageUri);
+
                     intent.putExtra("title", tripTitle.getText().toString());
                     intent.putExtra("description", tripDescription.getText().toString());
                     intent.putExtra("date", tripReminder.getText().toString());
-                    intent.putExtra("action",getIntent().getStringExtra("action"));
-                    intent.putExtra("position",getIntent().getStringExtra("position"));
 
+                    if (imageUri == null) {
+                        intent.putExtra("image", "INVALID");
+                    } else {
+                        intent.putExtra("image", imageUri.toString());
+                    }
+
+
+                    intent.putExtra("action", getIntent().getStringExtra("action"));
+                    intent.putExtra("position", getIntent().getIntExtra("position",0));
 
                     setResult(RESULT_OK, intent);
                     finish();
-                }
-                else{
+                } else {
                     Toast.makeText(getApplicationContext(), "You did not enter a Title", Toast.LENGTH_SHORT).show();
-                    Log.w("ACTION",getIntent().getStringExtra("action"));
-                    Log.w("Position", String.valueOf(getIntent().getIntExtra("position",0)));
+                    Log.w("ACTION", getIntent().getStringExtra("action"));
+                    Log.w("Position", String.valueOf(getIntent().getIntExtra("position", 0)));
 
                 }
             }

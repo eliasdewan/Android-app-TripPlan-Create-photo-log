@@ -1,18 +1,28 @@
 package com.example.tripplan;
 
 import android.net.Uri;
+import android.util.Log;
 
 public class Trip {
 
     private String title;
     private String Description;
     private String ReminderDate;
-    private Uri imageUri;
+    private String imageUri;
 
-    public Trip(String title, String description, String reminderDate) {
+
+    public Trip(String title, String description, String reminderDate) { // List withouth pictures
         this.title = title;
         Description = description;
         ReminderDate = reminderDate;
+        imageUri = "INVALID";
+    }
+
+    public Trip(String title, String description, String reminderDate, String sImageUri) {
+        this.title = title;
+        Description = description;
+        ReminderDate = reminderDate;
+        setImageUri(sImageUri);
     }
 
     public String getTitle() {
@@ -39,11 +49,20 @@ public class Trip {
         ReminderDate = reminderDate;
     }
 
-    public Uri getImageUri() {
+    public String getImageUri() {
         return imageUri;
     }
 
-    public void setImageUri(Uri imageUri) {
-        this.imageUri = imageUri;
+    public void setImageUri(String imageUri) {
+
+        try {
+            Uri.parse(imageUri);
+            this.imageUri = imageUri;
+            // The URI string is valid, do something with the URI
+        } catch (NullPointerException e) {
+            // The URI string is not valid, handle the error
+            Log.w("ImageURIError", "String uri not valid:"+imageUri);
+            this.imageUri = "INVALID";
+        }
     }
 }
