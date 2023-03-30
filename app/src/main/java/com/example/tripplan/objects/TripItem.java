@@ -1,4 +1,4 @@
-package com.example.tripplan;
+package com.example.tripplan.objects;
 
 public class TripItem {
     private String tripItemText;

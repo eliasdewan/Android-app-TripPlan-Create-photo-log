@@ -1,4 +1,4 @@
-package com.example.tripplan;
+package com.example.tripplan.objects;
 
 import android.net.Uri;
 import android.util.Log;

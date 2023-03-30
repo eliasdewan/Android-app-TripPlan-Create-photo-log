@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.tripplan.R;
-import com.example.tripplan.Trip;
+import com.example.tripplan.objects.Trip;
 import com.example.tripplan.TripItemClickListener;
 
 import java.util.List;

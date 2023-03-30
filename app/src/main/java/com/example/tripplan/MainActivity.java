@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.tripplan.adapter.TripAdapter;
+import com.example.tripplan.objects.Trip;
 
 import java.util.ArrayList;
 import java.util.List;

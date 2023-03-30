@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tripplan.R;
-import com.example.tripplan.TripItem;
+import com.example.tripplan.objects.TripItem;
 
 import java.util.List;
 
