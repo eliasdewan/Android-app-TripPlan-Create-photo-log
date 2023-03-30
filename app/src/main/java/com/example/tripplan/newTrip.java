@@ -59,6 +59,7 @@ public class newTrip extends AppCompatActivity {
 
             if (!getIntent().getStringExtra("image").equals("INVALID")) {
                 Glide.with(this).load(Uri.parse(getIntent().getStringExtra("image"))).into(imageView);
+                imageUri = Uri.parse(getIntent().getStringExtra("image"));
             }
         }
 
