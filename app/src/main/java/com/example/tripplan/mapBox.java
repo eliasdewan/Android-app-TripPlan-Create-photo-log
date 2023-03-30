@@ -18,47 +18,44 @@ public class mapBox extends AppCompatActivity {
         mapView = findViewById(R.id.mapView);
         mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS);
 
-
-
     }
 
     // Lifecycle methods
+
     @Override
-    public void onStart() {
+    protected void onStart() {
         super.onStart();
         mapView.onStart();
     }
-/*
-    @Override
-    public void onResume() {
+
+   /* @Override
+    protected void onResume() {
         super.onResume();
         mapView.onResume();
     }
 
     @Override
-    public void onPause() {
+    protected void onPause() {
         super.onPause();
         mapView.onPause();
     }
-    */
-
-
+*/
     @Override
-    public void onStop() {
+    protected void onStop() {
         super.onStop();
         mapView.onStop();
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mapView.onLowMemory();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
     }
 
 }
