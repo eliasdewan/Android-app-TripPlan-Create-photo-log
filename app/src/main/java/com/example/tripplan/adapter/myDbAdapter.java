@@ -1,4 +1,4 @@
-package com.example.tripplan;
+package com.example.tripplan.adapter;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

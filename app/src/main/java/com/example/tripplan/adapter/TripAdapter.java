@@ -1,6 +1,5 @@
-package com.example.tripplan;
+package com.example.tripplan.adapter;
 
-import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,8 +12,9 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.GlideContext;
-import com.bumptech.glide.RequestManager;
+import com.example.tripplan.R;
+import com.example.tripplan.Trip;
+import com.example.tripplan.TripItemClickListener;
 
 import java.util.List;
 

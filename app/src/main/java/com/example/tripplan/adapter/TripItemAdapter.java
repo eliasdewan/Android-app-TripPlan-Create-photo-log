@@ -1,12 +1,14 @@
-package com.example.tripplan;
+package com.example.tripplan.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.tripplan.R;
+import com.example.tripplan.TripItem;
 
 import java.util.List;
 
