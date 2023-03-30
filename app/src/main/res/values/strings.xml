@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TripPlan</string>
+    <string name="mapbox_access_token">pk.eyJ1IjoiZWxpYXNkZXdhbiIsImEiOiJjbGZ2Y3Q5cmcwNjN1M2RxdTFsZnpsY2hlIn0.3hG5n0tcZgEaogEKhRZ-EA</string>
 </resources>

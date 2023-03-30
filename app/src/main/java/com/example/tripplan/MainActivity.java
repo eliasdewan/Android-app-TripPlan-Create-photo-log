@@ -19,6 +19,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements TripItemClickListener {
 
+    Button test;
     Button create;
     RecyclerView recyclerView;
     List<Trip> tripList;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements TripItemClickList
         tripList.add(new Trip("TripTitle 2", "Description 2", "13/03/2023"));
 
         create = findViewById(R.id.begin);
+        test = findViewById(R.id.testButton);
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         tripAdapter = new TripAdapter(tripList, this);
@@ -49,6 +51,13 @@ public class MainActivity extends AppCompatActivity implements TripItemClickList
                 newTripScreen.putExtra("action", "add");
                 //startActivity(tripsScreen);
                 startActivityForResult(newTripScreen, REQUEST_CODE);
+            }
+        });
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent testButton = new Intent(MainActivity.this,mapBox.class);
+                startActivity(testButton);
             }
         });
     }
