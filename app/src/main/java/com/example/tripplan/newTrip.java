@@ -16,6 +16,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.tripplan.adapter.DateTimePicker;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class newTrip extends AppCompatActivity {
@@ -114,7 +118,11 @@ public class newTrip extends AppCompatActivity {
         dateTimePicker.pickDateTime(new DateTimePicker.DateTimePickListener() {
             @Override
             public void onDateTimePicked(Date date) {
-                tripReminder.setText(date.toString());
+                SimpleDateFormat formatter = new SimpleDateFormat("EEE dd MMM yyyy HH:mm");
+
+
+                tripReminder.setText(formatter.format(date));
+               // tripReminder.setText(date.toString());
             }
         });
 
