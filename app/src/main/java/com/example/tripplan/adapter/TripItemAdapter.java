@@ -21,6 +21,7 @@ public class TripItemAdapter extends RecyclerView.Adapter<TripItemAdapter.ViewHo
 
     public TripItemAdapter(List<TripItem> tripItemList) {
         this.tripItemList = tripItemList;
+
         // SET LISTENER HERE
     }
 

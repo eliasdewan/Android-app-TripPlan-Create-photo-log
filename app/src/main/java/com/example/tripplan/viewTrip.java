@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.tripplan.adapter.DateTimePicker;
@@ -93,8 +94,12 @@ public class viewTrip extends AppCompatActivity {
                     chooseAPicture();
                 });
                 confirmAddButton.setOnClickListener(view1 -> {
-                    tripItemList.add   ( new TripItem(tripItemText.getText().toString(),tripDate.getText().toString(),LoadedImage+"","None","DATE"));
-                    tripItemAdapter.notifyItemInserted(tripItemList.size()-1);
+                    if (tripItemText.getText().toString().trim().length() == 0 && LoadedImage!=null) {
+                    tripItemList.add ( new TripItem(tripItemText.getText().toString(),tripDate.getText().toString(),LoadedImage+"","None","DATE"));
+                    tripItemAdapter.notifyItemInserted(tripItemList.size()-1);}
+                    else {
+                        Toast.makeText(getApplicationContext(), "Nothing to add", Toast.LENGTH_SHORT).show();}
+                    bottomSheetDialog.dismiss();
                 });
             }
         });
