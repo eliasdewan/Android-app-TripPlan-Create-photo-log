@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements TripItemClickList
     Button test;
     Button create;
     RecyclerView recyclerView;
-    List<Trip> tripList;
+   static List<Trip> tripList;
     TripAdapter tripAdapter;
     public static final int REQUEST_CODE = 1;
 
@@ -39,9 +39,6 @@ public class MainActivity extends AppCompatActivity implements TripItemClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
 
         tripList = new ArrayList<>();
         getList();
@@ -109,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements TripItemClickList
                 tripAdapter.notifyItemChanged(tripPosition);
             }
         }
+        updateList();
     }
 
     @Override
@@ -116,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements TripItemClickList
         tripList.remove(position);
         tripAdapter.notifyItemRemoved(position);
         Log.w("Removetrip", "Trip removed");
+        updateList();
     }
 
     @Override
@@ -131,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements TripItemClickList
         Log.w("endEdittrip", "Trip to edit"+position);
 
         startActivityForResult(editTripScreen, REQUEST_CODE);
+        updateList();
     }
 
     public void getList(){
@@ -169,9 +169,6 @@ public class MainActivity extends AppCompatActivity implements TripItemClickList
         Log.w("UpdatedList", " The list was updated and evryting was saved");
         Log.w("ThingsAdding to string", jsonString);
         Log.w("ThingsExisting", sharedPreferences.getString("TripList", ""));
-
-
-
 
 
     }

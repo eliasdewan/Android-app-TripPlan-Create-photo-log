@@ -31,7 +31,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class viewTrip extends AppCompatActivity {
+public class viewTrip extends AppCompatActivity implements TripItemOptionListener{
 
     TripItemAdapter tripItemAdapter;
     RecyclerView itemRecyclerView;
@@ -42,12 +42,14 @@ public class viewTrip extends AppCompatActivity {
     private static final int SELECT_PICTURE = 1;
 
     FloatingActionButton itemAddButton;
+    FloatingActionButton informationButton;
 
     // Bottom part
     Button confirmAddButton;
     EditText tripItemText;
     Button tripDate;
     ImageView addImage;
+
 
     public String LoadedImage;
 
@@ -58,17 +60,16 @@ public class viewTrip extends AppCompatActivity {
         setContentView(R.layout.activity_view_trip);
         setTitle(getIntent().getStringExtra("title"));
 
+        int itemPosition = getIntent().getIntExtra("position",0);
+
         //tripItemList = new ArrayList<>();
-        tripItemList = (ArrayList<TripItem>) getIntent().getSerializableExtra("TripItemList");
-
-
-         //       (ArrayList<TripItem>) getIntent().getSerializableExtra("Trip");
+        tripItemList = MainActivity.tripList.get(itemPosition).getTripItemList();
         itemAddButton = findViewById(R.id.addItemButton);
-
+        informationButton =findViewById(R.id.informationButton);
 
         itemRecyclerView = findViewById(R.id.tripViewRecyclerView);
         itemRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        tripItemAdapter = new TripItemAdapter(tripItemList); // ADD parameter for custom listener
+        tripItemAdapter = new TripItemAdapter(tripItemList, this); // ADD parameter for custom listener
         itemRecyclerView.setAdapter(tripItemAdapter);
 
 
@@ -94,14 +95,23 @@ public class viewTrip extends AppCompatActivity {
                     chooseAPicture();
                 });
                 confirmAddButton.setOnClickListener(view1 -> {
-                    if (tripItemText.getText().toString().trim().length() == 0 && LoadedImage!=null) {
+
+
+                    if (tripItemText.getText().toString().trim().length() > 0 || LoadedImage!=null) {
                     tripItemList.add ( new TripItem(tripItemText.getText().toString(),tripDate.getText().toString(),LoadedImage+"","None","DATE"));
                     tripItemAdapter.notifyItemInserted(tripItemList.size()-1);}
                     else {
                         Toast.makeText(getApplicationContext(), "Nothing to add", Toast.LENGTH_SHORT).show();}
                     bottomSheetDialog.dismiss();
+                    LoadedImage = null;
+
                 });
             }
+        });
+        informationButton.setOnClickListener(view -> {
+            new AlertDialog.Builder(informationButton.getContext())
+                    .setMessage("To DELETE touch and hold in one of the items").show();
+
         });
     }
 
@@ -154,6 +164,13 @@ public class viewTrip extends AppCompatActivity {
             Log.w("PICKDATAGAL", data.getData().toString());
             Log.w("PICKDATAGAL", data.getDataString());
         }
+
+    }
+
+    @Override
+    public void openOption(int position) {
+        tripItemList.remove(position);
+        tripItemAdapter.notifyItemRemoved(position);
 
     }
 }

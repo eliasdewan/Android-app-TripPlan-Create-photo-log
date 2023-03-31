@@ -103,7 +103,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
             deleteButton = tripView.findViewById(R.id.deleteButton);
 
 
-
             tripView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -112,10 +111,10 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
                     Log.d("click", "position" + position);
                     if (position != RecyclerView.NO_POSITION) {
                         Intent newView = new Intent(context, viewTrip.class);
-                        newView.putExtra("position",position);
-                      //  tripList.get(position).getTripItemList().add(new TripItem("Tripitemtext", "date", "imageuri", "color", "datetime"));
-                        newView.putExtra("TripItemList", (Serializable) tripList.get(position).getTripItemList());
-                        newView.putExtra("title",titleTextView.getText().toString());
+                        newView.putExtra("position", position);
+                        newView.putExtra("title", titleTextView.getText().toString());
+                        // tripList.get(position).getTripItemList().add(new TripItem("Tripitemtext", "date", "imageuri", "color", "datetime"));
+                        //newView.putExtra("TripItemList", (Serializable) tripList.get(position).getTripItemList());
                         context.startActivity(newView);
                     }
                 }
@@ -159,5 +158,5 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
         }
     }
 
-    }
+}
 
