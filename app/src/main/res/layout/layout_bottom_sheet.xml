@@ -1,26 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_width="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/Text"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/windowAction"
         android:layout_height="wrap_content"
-        android:text="Option 1" />
+        android:layout_width="match_parent" />
 
     <Button
-        android:id="@+id/btn_option_2"
+        android:id="@+id/confirmAdd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Option 2" />
+        android:background="@color/teal_200"
+        android:text="+ CONFIRM"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/tripItemText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Note"
+        android:textSize="20sp" />
 
     <Button
-        android:id="@+id/btn_option_3"
+        android:id="@+id/tripDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Option 3" />
+        android:hint="Set Date time"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/addImage"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:src="@drawable/baseline_photo_camera_back_24" />
+
 
 </LinearLayout>
