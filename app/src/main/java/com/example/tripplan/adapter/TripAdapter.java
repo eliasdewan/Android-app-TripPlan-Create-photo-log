@@ -57,6 +57,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
 
         Glide.with(holder.imageView.getContext())
                 .load(imageUri)
+                .error(R.drawable.baseline_broken_image_24)
                 .override(300)
                 .centerCrop()
                 .into(holder.imageView);

@@ -62,7 +62,7 @@ public class newTrip extends AppCompatActivity {
             Log.w("Image uri from edit", getIntent().getStringExtra("image"));
 
             if (!getIntent().getStringExtra("image").equals("INVALID")) {
-                Glide.with(this).load(Uri.parse(getIntent().getStringExtra("image"))).into(imageView);
+                Glide.with(this).load(Uri.parse(getIntent().getStringExtra("image"))).error(R.drawable.baseline_broken_image_24).into(imageView);
                 imageUri = Uri.parse(getIntent().getStringExtra("image"));
             }
         }
