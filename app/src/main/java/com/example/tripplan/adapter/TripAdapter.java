@@ -1,5 +1,7 @@
 package com.example.tripplan.adapter;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,8 +51,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
         Uri imageUri;
         if (trip.getImageUri().equals("INVALID")) {
             imageUri = Uri.parse("android.resource://com.example.tripplan/" + R.mipmap.ic_launcher);
-        }
-        else{
+        } else {
             imageUri = Uri.parse(trip.getImageUri());
         }
 
@@ -121,13 +122,14 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
                         Log.d("click", "after position");
 
                         // TO CALL DELETE IN MAIN AND IMPLEMENT
-                        listener.onMyTripDeleted(position);
 
+                        new AlertDialog.Builder(deleteButton.getContext())
+                                .setMessage("Are you sure you want to delete this item?").setPositiveButton("Yes", (dialog, which) -> listener.onMyTripDeleted(position))
+                                // User clicked "Yes" button, handle the confirmation                        }
+                                .setNegativeButton("No", null).show();
                     }
                 }
             });
         }
     }
-
-
 }
