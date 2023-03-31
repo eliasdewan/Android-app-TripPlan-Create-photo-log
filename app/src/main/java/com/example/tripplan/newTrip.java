@@ -14,16 +14,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.tripplan.adapter.DateTimePicker;
+
+import java.util.Date;
 
 public class newTrip extends AppCompatActivity {
 
     private EditText tripTitle;
     private EditText tripDescription;
-    private EditText tripReminder;
+    private TextView tripReminder;
     private ImageView imageView;
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri imageUri;
     private Button addButton;
+    private Button selectDateButton;
 
 
     @Override
@@ -32,16 +36,16 @@ public class newTrip extends AppCompatActivity {
         setContentView(R.layout.activity_trip_add_edit);
         tripTitle = findViewById(R.id.editTextNewTripTitle);
         tripDescription = findViewById(R.id.editTextNewTripDescription);
-        tripReminder = findViewById(R.id.editTextNewDate);
+        tripReminder = findViewById(R.id.editDateText);
         addButton = findViewById(R.id.actionButton);
         imageView = findViewById(R.id.imageView);
+        selectDateButton = findViewById(R.id.dateButton);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openImagePicker();
             }
         });
-
 
         String request = getIntent().getStringExtra("action");
 
@@ -93,6 +97,27 @@ public class newTrip extends AppCompatActivity {
                 }
             }
         });
+
+        selectDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectDate();
+
+            }
+        });
+    }
+
+
+
+    public void selectDate(){
+        DateTimePicker dateTimePicker = new DateTimePicker(this);
+        dateTimePicker.pickDateTime(new DateTimePicker.DateTimePickListener() {
+            @Override
+            public void onDateTimePicked(Date date) {
+                tripReminder.setText(date.toString());
+            }
+        });
+
     }
 
     private void openImagePicker() {

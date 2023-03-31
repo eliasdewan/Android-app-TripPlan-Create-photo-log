@@ -34,7 +34,6 @@
         android:id="@+id/editTextNewTripDescription"
         android:layout_width="292dp"
         android:layout_height="64dp"
-        android:layout_marginTop="28dp"
         android:ems="10"
         android:gravity="start|top"
         android:hint="Description (optional)"
@@ -44,14 +43,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextNewTripTitle" />
 
-    <EditText
-        android:id="@+id/editTextNewDate"
+    <TextView
+        android:id="@+id/editDateText"
         android:layout_width="212dp"
         android:layout_height="58dp"
-        android:layout_marginTop="56dp"
         android:ems="10"
         android:hint="reminder (optional)"
         android:inputType="date"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.251"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,10 +71,20 @@
         android:id="@+id/imageView"
         android:layout_width="132dp"
         android:layout_height="109dp"
-        android:layout_marginStart="64dp"
         android:layout_marginTop="72dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNewDate"
+        app:layout_constraintTop_toBottomOf="@+id/editDateText"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+    <Button
+        android:id="@+id/dateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/baseline_date_range_24"
+        app:layout_constraintBottom_toBottomOf="@+id/editDateText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editDateText"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNewTripDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
