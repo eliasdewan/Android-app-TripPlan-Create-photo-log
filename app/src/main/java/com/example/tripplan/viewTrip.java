@@ -47,6 +47,8 @@ public class viewTrip extends AppCompatActivity {
     Button tripDate;
     ImageView addImage;
 
+    public String LoadedImage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,21 +117,27 @@ public class viewTrip extends AppCompatActivity {
                         Intent.EXTRA_INITIAL_INTENTS,
                         new Intent[] { takePhotoIntent }
                 );
-
         startActivityForResult(chooserIntent, SELECT_PICTURE);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        // For when choosing a picture
        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && data != null && data.getExtras() != null) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            Glide.with(this).load(imageBitmap).into(addImage);
-        }
+           String title = "MyImage";
+           String description = "Image captured from camera";
+           String savedImageURL = MediaStore.Images.Media.insertImage(getContentResolver(), imageBitmap, title , description);
+           Glide.with(this).load(savedImageURL).into(addImage);
+           LoadedImage = savedImageURL;
+            Log.w("PICKDATACAM",imageBitmap.toString());
+        } // For when taking a picture
         else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Glide.with(this).load(data.getData()).into(addImage);
-            Log.w("PICKDATA",data.toString());
+           LoadedImage = data.getDataString();
+            Log.w("PICKDATAGAL",data.getData().toString());
+           Log.w("PICKDATAGAL",data.getDataString());
         }
 
     }
