@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,8 +34,9 @@ public class viewTrip extends AppCompatActivity {
     TripItemAdapter tripItemAdapter;
     RecyclerView itemRecyclerView;
     List<TripItem> tripItemList;
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
 
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int PICK_IMAGE_REQUEST = 1;
 
     FloatingActionButton itemAddButton;
 
@@ -80,7 +83,12 @@ public class viewTrip extends AppCompatActivity {
 
                 });
                 addImage.setOnClickListener(view1 -> {
-                    dispatchTakePictureIntent();
+                    new AlertDialog.Builder(view.getContext())
+                            .setMessage("Take a picture or choo image")
+                            .setPositiveButton("Camera", (dialog, which) -> takePicutre())
+                            // User clicked "Yes" button, handle the confirmation                        }
+                            .setNegativeButton("Gallery", (dialog, which) -> chooseAPicture())
+                            .show();
                 });
             }
         });
@@ -97,23 +105,33 @@ public class viewTrip extends AppCompatActivity {
         });
     }
 
-    private void dispatchTakePictureIntent() {
+    public void takePicutre() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
+
+    public void chooseAPicture(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+       if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && data != null && data.getExtras() != null) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-           // Glide.with(this).load(imageBitmap).into(imageView);
-            Glide.with(this)
-                    .load(imageBitmap)
-                    .into(addImage);
+            Glide.with(this).load(imageBitmap).into(addImage);
         }
+        else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Glide.with(this).load(data.getData()).into(addImage);
+            Log.w("PICKDATA",data.toString());
+        }
+
     }
 }
