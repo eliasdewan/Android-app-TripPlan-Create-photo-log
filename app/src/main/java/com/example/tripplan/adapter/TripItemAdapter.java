@@ -55,7 +55,7 @@ public class TripItemAdapter extends RecyclerView.Adapter<TripItemAdapter.ViewHo
             super(tripItemView);
 
 
-            tripItemText = tripItemView.findViewById(R.id.tripItemText);
+            tripItemText = tripItemView.findViewById(R.id.itemAddButton);
             // Set all the layout items herer
 
             // Need a bind class for onclick actions with custom interface

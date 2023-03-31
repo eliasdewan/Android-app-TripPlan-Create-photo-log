@@ -11,7 +11,7 @@
 
 
     <TextView
-        android:id="@+id/tripItemText"
+        android:id="@+id/itemAddButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/teal_700"
