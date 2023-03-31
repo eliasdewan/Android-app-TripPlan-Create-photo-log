@@ -2,7 +2,7 @@ package com.example.tripplan.objects;
 
 import java.io.Serializable;
 
-public class TripItem implements Serializable {
+public class TripItem {
     private String tripItemText;
     private String tripDate;
     private String imageUri;
