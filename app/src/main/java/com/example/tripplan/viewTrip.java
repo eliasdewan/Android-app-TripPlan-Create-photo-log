@@ -37,6 +37,7 @@ public class viewTrip extends AppCompatActivity {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int PICK_IMAGE_REQUEST = 1;
+    private static final int SELECT_PICTURE = 1;
 
     FloatingActionButton itemAddButton;
 
@@ -83,12 +84,7 @@ public class viewTrip extends AppCompatActivity {
 
                 });
                 addImage.setOnClickListener(view1 -> {
-                    new AlertDialog.Builder(view.getContext())
-                            .setMessage("Take a picture or choo image")
-                            .setPositiveButton("Camera", (dialog, which) -> takePicutre())
-                            // User clicked "Yes" button, handle the confirmation                        }
-                            .setNegativeButton("Gallery", (dialog, which) -> chooseAPicture())
-                            .show();
+                    chooseAPicture();
                 });
             }
         });
@@ -105,19 +101,22 @@ public class viewTrip extends AppCompatActivity {
         });
     }
 
-    public void takePicutre() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-    }
-
     public void chooseAPicture(){
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        Intent pickIntent = new Intent();
+        pickIntent.setType("image/*");
+        pickIntent.setAction(Intent.ACTION_GET_CONTENT);
 
+        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        String pickTitle = "Select or take a new Picture"; // Or get from strings.xml
+        Intent chooserIntent = Intent.createChooser(pickIntent, pickTitle);
+        chooserIntent.putExtra
+                (
+                        Intent.EXTRA_INITIAL_INTENTS,
+                        new Intent[] { takePhotoIntent }
+                );
+
+        startActivityForResult(chooserIntent, SELECT_PICTURE);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
