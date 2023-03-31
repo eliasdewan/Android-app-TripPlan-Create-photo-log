@@ -27,8 +27,11 @@ import com.example.tripplan.R;
 import com.example.tripplan.newTrip;
 import com.example.tripplan.objects.Trip;
 import com.example.tripplan.TripItemClickListener;
+import com.example.tripplan.objects.TripItem;
 import com.example.tripplan.viewTrip;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
@@ -75,7 +78,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
         holder.bind(position, aListener);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView titleTextView;
         public TextView descriptionTextView;
@@ -110,10 +113,10 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
                     if (position != RecyclerView.NO_POSITION) {
                         Intent newView = new Intent(context, viewTrip.class);
                         newView.putExtra("position",position);
+                      //  tripList.get(position).getTripItemList().add(new TripItem("Tripitemtext", "date", "imageuri", "color", "datetime"));
+                        newView.putExtra("TripItemList", (Serializable) tripList.get(position).getTripItemList());
                         newView.putExtra("title",titleTextView.getText().toString());
                         context.startActivity(newView);
-
-
                     }
                 }
             });
@@ -155,4 +158,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
             });
         }
     }
-}
+
+    }
+

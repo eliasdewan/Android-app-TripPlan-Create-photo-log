@@ -1,6 +1,8 @@
 package com.example.tripplan.objects;
 
-public class TripItem {
+import java.io.Serializable;
+
+public class TripItem implements Serializable {
     private String tripItemText;
     private String tripDate;
     private String imageUri;

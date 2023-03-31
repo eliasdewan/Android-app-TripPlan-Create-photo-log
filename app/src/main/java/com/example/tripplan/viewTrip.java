@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.tripplan.adapter.DateTimePicker;
 import com.example.tripplan.adapter.TripItemAdapter;
+import com.example.tripplan.objects.Trip;
 import com.example.tripplan.objects.TripItem;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -56,7 +57,11 @@ public class viewTrip extends AppCompatActivity {
         setContentView(R.layout.activity_view_trip);
         setTitle(getIntent().getStringExtra("title"));
 
-        tripItemList = new ArrayList<>();
+        //tripItemList = new ArrayList<>();
+        tripItemList = (ArrayList<TripItem>) getIntent().getSerializableExtra("TripItemList");
+
+
+         //       (ArrayList<TripItem>) getIntent().getSerializableExtra("Trip");
         itemAddButton = findViewById(R.id.addItemButton);
 
 
@@ -66,8 +71,8 @@ public class viewTrip extends AppCompatActivity {
         itemRecyclerView.setAdapter(tripItemAdapter);
 
 
-        tripItemList.add(new TripItem("Tripitemtext", "date", "imageuri", "color", "datetime"));
-        tripItemList.add(new TripItem("Tripitemtext2", "date", "imageuri", "color", "datetime"));
+      //  tripItemList.add(new TripItem("Tripitemtext", "date", "imageuri", "color", "datetime"));
+      //  tripItemList.add(new TripItem("Tripitemtext2", "date", "imageuri", "color", "datetime"));
 
         itemAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +85,6 @@ public class viewTrip extends AppCompatActivity {
                 tripItemText = bottomSheetDialog.findViewById(R.id.tripItemText);
                 tripDate = bottomSheetDialog.findViewById(R.id.tripDate);
                 addImage = bottomSheetDialog.findViewById(R.id.addImage);
-
                 tripDate.setOnClickListener(view1 -> {
                     setDatetoView(tripDate);
 
@@ -88,11 +92,15 @@ public class viewTrip extends AppCompatActivity {
                 addImage.setOnClickListener(view1 -> {
                     chooseAPicture();
                 });
+                confirmAddButton.setOnClickListener(view1 -> {
+                    tripItemList.add   ( new TripItem(tripItemText.getText().toString(),tripDate.getText().toString(),LoadedImage+"","None","DATE"));
+                    tripItemAdapter.notifyItemInserted(tripItemList.size()-1);
+                });
             }
         });
     }
 
-    public void setDatetoView(TextView view){
+    public void setDatetoView(TextView view) {
         DateTimePicker dateTimePicker = new DateTimePicker(this);
         dateTimePicker.pickDateTime(new DateTimePicker.DateTimePickListener() {
             @Override
@@ -103,7 +111,7 @@ public class viewTrip extends AppCompatActivity {
         });
     }
 
-    public void chooseAPicture(){
+    public void chooseAPicture() {
         Intent pickIntent = new Intent();
         pickIntent.setType("image/*");
         pickIntent.setAction(Intent.ACTION_GET_CONTENT);
@@ -115,29 +123,31 @@ public class viewTrip extends AppCompatActivity {
         chooserIntent.putExtra
                 (
                         Intent.EXTRA_INITIAL_INTENTS,
-                        new Intent[] { takePhotoIntent }
+                        new Intent[]{takePhotoIntent}
                 );
         startActivityForResult(chooserIntent, SELECT_PICTURE);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // For when choosing a picture
-       if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && data != null && data.getExtras() != null) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && data != null && data.getExtras() != null) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-           String title = "MyImage";
-           String description = "Image captured from camera";
-           String savedImageURL = MediaStore.Images.Media.insertImage(getContentResolver(), imageBitmap, title , description);
-           Glide.with(this).load(savedImageURL).into(addImage);
-           LoadedImage = savedImageURL;
-            Log.w("PICKDATACAM",imageBitmap.toString());
+            //For saving the image
+            String title = "MyImage";
+            String description = "Image captured from camera";
+            String savedImageURL = MediaStore.Images.Media.insertImage(getContentResolver(), imageBitmap, title, description);
+            Glide.with(this).load(savedImageURL).into(addImage);
+            LoadedImage = savedImageURL;
+            Log.w("PICKDATACAM", imageBitmap.toString());
         } // For when taking a picture
         else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Glide.with(this).load(data.getData()).into(addImage);
-           LoadedImage = data.getDataString();
-            Log.w("PICKDATAGAL",data.getData().toString());
-           Log.w("PICKDATAGAL",data.getDataString());
+            LoadedImage = data.getDataString();
+            Log.w("PICKDATAGAL", data.getData().toString());
+            Log.w("PICKDATAGAL", data.getDataString());
         }
 
     }

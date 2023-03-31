@@ -3,10 +3,11 @@ package com.example.tripplan.objects;
 import android.net.Uri;
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Trip {
+public class Trip implements Serializable {
 
     private String title;
     private String Description;
@@ -14,22 +15,17 @@ public class Trip {
     private String imageUri;
     private List<TripItem> tripItemList;
 
-
-    public Trip(String title, String description, String reminderDate) { // List withouth pictures
-        this.title = title;
-        Description = description;
-        ReminderDate = reminderDate;
-        imageUri = "INVALID";
-        tripItemList = new ArrayList<>();
-
-    }
-
     public Trip(String title, String description, String reminderDate, String sImageUri) {
         this.title = title;
-        Description = description;
-        ReminderDate = reminderDate;
-        setImageUri(sImageUri);
-        tripItemList = new ArrayList<>();
+        this.Description = description;
+        this.ReminderDate = reminderDate;
+        this.setImageUri(sImageUri);
+        this.tripItemList = new ArrayList<TripItem>();
+    }
+
+    // List withouth pictures
+    public Trip(String title, String description, String reminderDate) {
+        this(title, description,reminderDate,"INVALID");
     }
 
     public String getTitle() {
