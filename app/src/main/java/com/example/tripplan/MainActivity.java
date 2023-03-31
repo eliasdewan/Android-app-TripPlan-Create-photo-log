@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +15,8 @@ import android.widget.Toast;
 
 import com.example.tripplan.adapter.TripAdapter;
 import com.example.tripplan.objects.Trip;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,15 +30,21 @@ public class MainActivity extends AppCompatActivity implements TripItemClickList
     TripAdapter tripAdapter;
     private static final int REQUEST_CODE = 1;
 
+    // For sstoring data
+    String jsonString = new Gson().toJson(tripList);
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tripList = new ArrayList<>();
 
-        tripList.add(new Trip("TripTitle 1", "Description 1", "12/03/2023"));
-        tripList.add(new Trip("TripTitle 2", "Description 2", "13/03/2023"));
+
+
+        tripList = new ArrayList<>();
+        getList();
 
         create = findViewById(R.id.begin);
         test = findViewById(R.id.testButton);
@@ -60,6 +70,14 @@ public class MainActivity extends AppCompatActivity implements TripItemClickList
                 startActivity(testButton);
             }
         });
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        updateList();
+
+        // Code to run when the activity is destroyed
+        // For example, save data to a database or file
     }
 
     @Override
@@ -114,4 +132,49 @@ public class MainActivity extends AppCompatActivity implements TripItemClickList
 
         startActivityForResult(editTripScreen, REQUEST_CODE);
     }
+
+    public void getList(){
+        sharedPreferences = getSharedPreferences("TripListSession", Context.MODE_PRIVATE);
+        jsonString = sharedPreferences.getString("TripList", "");
+
+       // List<Trip> listToAdd;
+        Log.w("ListPrintGson",jsonString);
+        if (!jsonString.isEmpty()) {
+           // listToAdd = new Gson().fromJson(jsonString, new TypeToken<ArrayList<Trip>>() {}.getType());
+          //  tripList.addAll(listToAdd);
+            tripList = new Gson().fromJson(jsonString, new TypeToken<ArrayList<Trip>>() {}.getType());
+            Log.w("Listfound", " Adding things in the list");
+        }
+        else {
+            // For new app testing ....
+            tripList.add(new Trip("TripTitle 1", "Description 1", "12/03/2023"));
+            tripList.add(new Trip("TripTitle 2", "Description 2", "13/03/2023"));
+        }
+        Log.w("ListNotfound", " Adding things in the list");
+        //
+    }
+    public void updateList(){
+
+        // Saving the list or updating the list
+        // Creates jsonString
+        String jsonString = new Gson().toJson(tripList);
+        // Gets the shared preference
+        sharedPreferences = getSharedPreferences("TripListSession", Context.MODE_PRIVATE);
+        // sets shared preference edit to variable
+        editor = sharedPreferences.edit();
+        // Edits the shared preference to store
+        editor.putString("TripList",jsonString);
+        editor.apply();
+
+        Log.w("UpdatedList", " The list was updated and evryting was saved");
+        Log.w("ThingsAdding to string", jsonString);
+        Log.w("ThingsExisting", sharedPreferences.getString("TripList", ""));
+
+
+
+
+
+    }
+
+
 }
