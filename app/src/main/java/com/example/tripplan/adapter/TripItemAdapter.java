@@ -24,8 +24,6 @@ public class TripItemAdapter extends RecyclerView.Adapter<TripItemAdapter.ViewHo
         // SET LISTENER HERE
     }
 
-
-
     @Override
     public TripItemAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.trip_item_layout, parent, false);
@@ -39,6 +37,8 @@ public class TripItemAdapter extends RecyclerView.Adapter<TripItemAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         TripItem tripItem = tripItemList.get(position);
+        holder.tripItemText.setText(tripItem.getTripItemText());
+
         // SET THE HOLDERS FOR RECYCLER VIEW
 
         //USE CONDITIONALS FOR CUSTOMISED VIEW
@@ -49,19 +49,16 @@ public class TripItemAdapter extends RecyclerView.Adapter<TripItemAdapter.ViewHo
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        // HAVE THE ATTRIBUTES FOR VIEW HERE
         public TextView tripItemText;
-
+        // HAVE THE ATTRIBUTES FOR VIEW HERE
         public ViewHolder(View tripItemView) {
             super(tripItemView);
 
-            // Set all the layout items herer
-            tripItemText = tripItemView.findViewById(R.id.tripItemText);
 
+            tripItemText = tripItemView.findViewById(R.id.tripItemText);
+            // Set all the layout items herer
 
             // Need a bind class for onclick actions with custom interface
-
 
         }
 

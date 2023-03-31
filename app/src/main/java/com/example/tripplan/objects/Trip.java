@@ -3,12 +3,16 @@ package com.example.tripplan.objects;
 import android.net.Uri;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Trip {
 
     private String title;
     private String Description;
     private String ReminderDate;
     private String imageUri;
+    private List<TripItem> tripItemList;
 
 
     public Trip(String title, String description, String reminderDate) { // List withouth pictures
@@ -16,6 +20,8 @@ public class Trip {
         Description = description;
         ReminderDate = reminderDate;
         imageUri = "INVALID";
+        tripItemList = new ArrayList<>();
+
     }
 
     public Trip(String title, String description, String reminderDate, String sImageUri) {
@@ -23,6 +29,7 @@ public class Trip {
         Description = description;
         ReminderDate = reminderDate;
         setImageUri(sImageUri);
+        tripItemList = new ArrayList<>();
     }
 
     public String getTitle() {
@@ -65,4 +72,22 @@ public class Trip {
             this.imageUri = "INVALID";
         }
     }
+
+
+    public List<TripItem> getTripItemList() {
+        return tripItemList;
+    }
+
+    public void setTripItemList(List<TripItem> tripItemList) {
+        this.tripItemList = tripItemList;
+    }
+
+    public void add(TripItem tripItem){
+        this.tripItemList.add(tripItem);
+    }
+
+    public void remove(TripItem tripItem){
+        this.tripItemList.remove(tripItem);
+    }
+
 }

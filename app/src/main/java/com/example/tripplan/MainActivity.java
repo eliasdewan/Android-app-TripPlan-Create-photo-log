@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements TripItemClickList
     RecyclerView recyclerView;
     List<Trip> tripList;
     TripAdapter tripAdapter;
-    private static final int REQUEST_CODE = 1;
+    public static final int REQUEST_CODE = 1;
 
     // For sstoring data
     String jsonString = new Gson().toJson(tripList);

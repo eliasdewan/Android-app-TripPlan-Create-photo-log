@@ -1,7 +1,14 @@
 package com.example.tripplan.adapter;
 
+import static androidx.core.app.ActivityCompat.startActivityForResult;
+import static androidx.core.content.ContextCompat.startActivity;
+
+import static com.example.tripplan.MainActivity.REQUEST_CODE;
+
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,12 +18,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.tripplan.MainActivity;
 import com.example.tripplan.R;
+import com.example.tripplan.newTrip;
 import com.example.tripplan.objects.Trip;
 import com.example.tripplan.TripItemClickListener;
+import com.example.tripplan.viewTrip;
 
 import java.util.List;
 
@@ -73,9 +84,13 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
         public ImageButton editButton;
         public ImageButton deleteButton;
 
+        private Context context;
+
 
         public ViewHolder(View tripView) {
             super(tripView);
+
+            context = itemView.getContext();
 
             titleTextView = tripView.findViewById(R.id.title_text_view);
             descriptionTextView = tripView.findViewById(R.id.description_text_view);
@@ -84,14 +99,21 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
             editButton = tripView.findViewById(R.id.editButton);
             deleteButton = tripView.findViewById(R.id.deleteButton);
 
+
+
             tripView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.d("click", "click pre position");
+                    // To go to view trip
                     int position = getAdapterPosition();
                     Log.d("click", "position" + position);
                     if (position != RecyclerView.NO_POSITION) {
-                        Log.d("click", "after position");
+                        Intent newView = new Intent(context, viewTrip.class);
+                        newView.putExtra("position",position);
+                        newView.putExtra("title",titleTextView.getText().toString());
+                        context.startActivity(newView);
+
+
                     }
                 }
             });
